@@ -5,6 +5,8 @@ import ForgotPassword from './pages/forgotpassword.jsx';
 import Dashboard from './pages/dashboard.jsx';
 import DeleteUser from './pages/deleteuser.jsx';
 import EditUser from './pages/edituser.jsx';
+import Events from './pages/events.jsx';
+import NewEvent from './pages/newEvent.jsx';
 import {Route, Routes} from 'react-router-dom';
 import Chat from './pages/chat.jsx';
 import './App.css'
@@ -20,8 +22,10 @@ function App() {
       <Route path='/dashboard/user/delete/:id' element={<DeleteUser />} />
       <Route path='/dashboard/user/edit/:id' element={<EditUser />} />
       <Route path='/dashboard/chat/:id' element={<Chat  />} />
+      <Route path='/dashboard/events/:id' element={<Events />} />
+      <Route path='/dashboard/events/new/:id' element={<NewEvent />} />
     </Routes>
   )
 }
 
-export default App;
+export default App; 
