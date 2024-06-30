@@ -41,8 +41,12 @@ const db = mysql.createConnection({
 //Multer middleware
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/profile'); // Specify the directory to save the uploaded files
-      },
+        if (file.fieldname === 'profile') {
+            cb(null, 'uploads/profile');
+        } else if (file.fieldname === 'image') {
+            cb(null, 'uploads/events');
+      }
+    },
       filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname); // Generate a unique filename
       }
@@ -256,4 +260,63 @@ app.put('/user/edit/:id',upload.single('profile'), (req,res) => {
             })
         }
     }
+})
+
+//New event
+
+app.post('/event/create/:id',upload.single('image'), (req, res) => {
+    const id = req.params.id;
+    const title = req.body.title;
+    const date = req.body.date;
+    const time = req.body.time;
+    const location = req.body.location;
+    const description = req.body.description;
+
+    db.query('SELECT name FROM users WHERE id = ?' , [id] , (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error retrieving user');
+        }
+        const name = result[0].name;
+        db.query('INSERT INTO events (title, Date, Time, location, description, Creator, image) VALUES (?,?,?,?,?,?,?)',
+            [title, date, time, location, description, name, req.file.path], (err, result) => {
+            if (err) console.log(err);
+            res.status(200).send('Event created successfully');
+        })
+    })
+})
+
+//Get all events
+app.get('/events', (req, res) => {
+    db.query('SELECT * FROM events', (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error retrieving events');
+        }
+        res.status(200).send(result);
+    })
+})
+
+app.get('/event/:id', (req, res) => {
+    const id = req.params.id;
+
+    db.query('SELECT * FROM events WHERE id =?', [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error retrieving event');
+        }
+        res.status(200).send(result[0]);
+    })
+})
+
+app.get('/event/img/:id', (req, res) => {
+    const id = req.params.id;
+    db.query('SELECT image FROM events WHERE id =?', [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error retrieving event image');
+        }
+        const imagePath = result[0].image;
+        res.sendFile(path.resolve(imagePath)); 
+    })
 })
