@@ -3,14 +3,26 @@
       Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
       Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     letter-spacing: 0.5px;
+    color: #fff;
   }
 
 
   .chatContainer {
-    background-color: rgba(117,84,160,1);
     width: 900px;
+    border-radius: 15px;
   }
   
+  .ce-chat-engine {
+    border-radius: 15px !important;
+    border: 2px solid #d512e3;
+  }
+
+  .ce-section-title-container,#ce-options-drop-down {
+    background: none !important;
+
+  }
+
+
   .ce-chat-list {
     background-color: rgb(24, 23, 24) !important;
   }
@@ -20,9 +32,10 @@
   }
   
   .ce-active-chat-card {
-    background-color: #6525ba !important;
-    border: 4px solid #8e077e !important;
-    border-radius: 0px !important;
+    background-color: rgb(24, 23, 24) !important;
+    border-bottom: 4px solid #8e077e !important;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
   }
   
   .ce-chat-subtitle-text {
@@ -30,43 +43,49 @@
   }
   
   .ce-chat-form-container {
-    padding-bottom: 20px !important;
+    color: #000;
+    border-bottom: 1px solid #d512e3 !important;
+    background: rgb(24, 23, 24) !important;
   }
   
   .ce-text-input {
     border-radius: 6px !important;
-    border: 1px solid #4e16a1 !important;
+    border: 1px solid #d512e3 !important;
+    background-color: rgb(24, 23, 24);
   }
   
   .ce-primary-button {
     border-radius: 6px !important;
-    background-color: #7554a0 !important;
+    background-color: #d512e3 !important;
     position: relative;
     bottom: 1px;
   }
   
   .ce-danger-button {
-    background-color: white !important;
+    background-color: rgb(24, 23, 24) !important;
     border-radius: 22px !important;
+
   }
   
   .ce-settings {
-    background-color: rgb(240, 240, 240) !important;
+    background-color: rgb(24, 23, 24) !important;
+    
   }
   
   .ce-autocomplete-input {
     border-radius: 6px !important;
-    border: 1px solid #3b2a50 !important;
+    border: 2px solid #d512e3 !important;
   }
   
   .ce-autocomplete-options {
     border-radius: 6px !important;
-    border: 1px solid #3b2a50 !important;
+    border: 1px solid #d512e3 !important;
     background-color: white !important;
   }
   
   .ce-chat-settings-container {
     padding-top: 12px !important;
+    background-color: rgb(24, 23, 24) !important;
   }
   
   .ce-chat-avatars-row {
@@ -79,7 +98,7 @@
     height: 100%;
     width: 100%;
     overflow: scroll;
-    background-color: rgb(53, 15, 168);
+    background-color: rgb(24, 23, 24);
   }
   
   .chat-title-container {
@@ -128,6 +147,7 @@
     padding: 12px;
     font-size: 16px;
     border-radius: 6px;
+    background-color: #d512e3;
     max-width: 60%;
   }
   

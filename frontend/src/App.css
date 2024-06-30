@@ -1,21 +1,3 @@
-import React from 'react';
-import SideNav from './components/SideNav/SideNav';
-import './App.css';
-
-function App() {
-  return (
-    <div>
-      <SideNav />
-      <div className="content" style={{ marginLeft: '260px', padding: '20px' }}>
-        <h2>Welcome to the Dashboard</h2>
-        <p>Content goes here...</p>
-      </div>
-    </div>
-  );
-}
-
-export default App;
-
 #root {
   max-width: 1280px;
   margin: 0 auto;

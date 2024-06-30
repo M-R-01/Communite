@@ -1,4 +1,5 @@
 import React from 'react';
+import './signup.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -109,20 +110,20 @@ const Signup = () => {
         };
 
     return (
-        <div>
-            <form>
-                <input type = 'file' onChange={(e) => (setProfile(e.target.files[0]))} name='profile' />
-                <input type="text" placeholder="Name" onChange={(e) => (setName(e.target.value))} required />
-                <input type="text" placeholder="Email" onChange={(e) => (setEmail(e.target.value))} required />
-                <input type='text' placeholder="Mobile" onChange={(e) => (checkIfMobile(e.target.value))} required />
-                {exists ? (<p>NUmber already exists</p>) : ''}
-                <input type='number' placeholder="Age" onChange={(e) => (setAge(e.target.value))} required />
-                <textarea placeholder="Address" onChange={(e) => (setAddress(e.target.value))} required />
-                <input type="password" placeholder="Password" onChange={(e) => (setPassword(e.target.value))} required />
-                <input type="password" placeholder="Confirm Password" onChange={(e) => (setConfirmPassword(e.target.value))} required />
-                <input type="text" placeholder="Occupation" onChange={(e) => (setOccupation(e.target.value))} required />
-                <input type="text" placeholder="Pronouns" onChange={(e) => (setPronoun(e.target.value))} required />
-                <input type='submit' value="Sign Up" onClick={handleSignup} />
+        <div className='container'>
+            <form className='signup-form'>
+                <input type ='file' className='form-control-file' onChange={(e) => (setProfile(e.target.files[0]))} name='profile' />
+                <input type="text" className='form-control' placeholder="Name" onChange={(e) => (setName(e.target.value))} required />
+                <input type="text" className='form-control' placeholder="Email" onChange={(e) => (setEmail(e.target.value))} required />
+                <input type='text' className='form-control' placeholder="Mobile" onChange={(e) => (checkIfMobile(e.target.value))} required />
+                {exists ? (<p className='text-danger'>Number already exists</p>) : ''}
+                <input type='number' className='form-control' placeholder="Age" onChange={(e) => (setAge(e.target.value))} required />
+                <textarea className='form-control' placeholder="Address" onChange={(e) => (setAddress(e.target.value))} required />
+                <input type="password" className='form-control' placeholder="Password" onChange={(e) => (setPassword(e.target.value))} required />
+                <input type="password" className='form-control' placeholder="Confirm Password" onChange={(e) => (setConfirmPassword(e.target.value))} required />
+                <input type="text" className='form-control' placeholder="Occupation" onChange={(e) => (setOccupation(e.target.value))} required />
+                <input type="text" className='form-control' placeholder="Pronouns" onChange={(e) => (setPronoun(e.target.value))} required />
+                <input type='submit' className='btn-primary' value="Sign Up" onClick={handleSignup} />
             </form>
         </div>
     );

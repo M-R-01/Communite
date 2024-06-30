@@ -3,6 +3,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import SideNav from "../components/Sidebarnav";
+import './dashboard.css';
 
 
 const Dashboard = () => {
@@ -24,23 +28,34 @@ const Dashboard = () => {
     console.log(user);  
 
     return (
-        <div>
-            <div><img src={`http://localhost:3000/user/profile/${id}`} /></div>
-            <h4>Hola,</h4>
-            <h2>{user.name}</h2>
-            <p>{user.Age} -{user.pronouns} </p>
-            <p>{user.email}</p>
-            <p>{user.mobile}</p>
-            <p>{user.occupation}</p>
-            <p>{user.Address}</p>
+        <div className="dashboard-container">
+            <SideNav id={id}/>
+            <div className="profile"><img src={`http://localhost:3000/user/profile/${id}`} /></div>
             <Link to={`/dashboard/user/edit/${user.id}`}>
-                <button>Edit</button>
+                <button className="button"><MdEdit fill='#d60dab' /></button>
             </Link>  
             <Link to={`/dashboard/user/delete/${user.id}`} >
-                <button>Delete Account</button>
+                <button className="button"><MdDelete fill='#d60dab' /></button>
             </Link>
+            <div className='content'>
+                <h4>Hola,</h4>
+                <h2 className="name">{user.name}!!</h2>
+                <div className="info">
+                    <p>Age: {user.Age}</p>
+                    <p>Pronouns: {user.pronouns} </p>
+                </div>
+                <div className="info">
+                    <p>Email: {user.email}</p>
+                    <p>Mobile: {user.mobile}</p>
+                </div>
+                
+                <div className="info">
+                    <p>Occupation: {user.occupation}</p>
+                    <p>Residence: {user.Address}</p>
+                </div>
+                
+            </div>
             
-            <button>Logout</button>
         </div>
     )
 }

@@ -1,13 +1,14 @@
 import { ChatEngine } from 'react-chat-engine';
 import './chat.css';
 import ChatFeed from '../components/Chatfeed';
-import { useParams } from 'react-router-dom';
+import SideNav from "../components/Sidebarnav";
 
 
 const Chat = () => {
 
     return (
         <div className='chatContainer'>
+            <SideNav />
             <ChatEngine
                 height="90vh"
                 width="160vw"

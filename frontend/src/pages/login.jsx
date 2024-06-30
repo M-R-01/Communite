@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
+import './signup.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
@@ -45,13 +46,13 @@ const Login = () => {
 
 
     return (
-        <div>
-            <form>
-                <input type="text" placeholder="Mobile" onChange={(e) => {setMobile(e.target.value)}} required />
-                <input type="password" placeholder="password" onChange={(e) => {setPassword(e.target.value)}} required />
-                <Link to='/signup'>Haven't registered yet? Signup here</Link>
-                <Link to='/forgot-password'>Forgot Password?</Link>
-                <input type="submit" onClick={handleLogin} value="Login" />
+        <div className="container">
+            <form className="signup-form">
+                <input type="text" className="form-control" placeholder="Mobile" onChange={(e) => {setMobile(e.target.value)}} required />
+                <input type="password" className="form-control" placeholder="password" onChange={(e) => {setPassword(e.target.value)}} required />
+                <Link to='/signup'>Haven't registered yet? Signup here</Link><br></br>
+                <Link to='/forgot-password'>Forgot Password?</Link><br></br>
+                <input type="submit" className="btn-primary" onClick={handleLogin} value="Login" />
             </form>
         </div>
     )

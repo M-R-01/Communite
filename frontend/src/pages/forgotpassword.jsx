@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import './signup.css';
 import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
@@ -41,9 +42,9 @@ const ForgotPassword = () => {
 
 
     return (
-        <div>
-            <input type="text" placeholder="Mobile" onChange={(e) => (setMobile(e.target.value))} />
-            <input type="submit" value="Submit" onClick={handleForgotPassword} />
+        <div className='signup-form'>
+            <input type="text" className='form-control' placeholder="Mobile" onChange={(e) => (setMobile(e.target.value))} />
+            <input type="submit" className='btn-primary'  value="Submit" onClick={handleForgotPassword} />
         </div>
     );
 }

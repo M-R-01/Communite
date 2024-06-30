@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import './signup.css'
 
 const NewEvent = () => {
     const navigate = useNavigate();
@@ -39,11 +40,11 @@ const NewEvent = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleCreateEvent}>
+        <div className="container">
+            <form onSubmit={handleCreateEvent} className="signup-form">
                 <div className="form-group">
                     <label htmlFor="Image">Event Image</label>
-                    <input type="file" className="form-control" onChange={(e)=>(setImage(e.target.files[0]))} id="title" />
+                    <input type="file" className="form-control-file" onChange={(e)=>(setImage(e.target.files[0]))} id="title" />
                 </div>
                 <div className="form-group">
                     <label htmlFor="title">Title</label>
@@ -65,7 +66,7 @@ const NewEvent = () => {
                     <label htmlFor="description">Location</label>
                     <input type="text" className="form-control" onChange={(e)=>(setLocation(e.target.value))} id="description" />
                 </div>
-                <input type="submit" value='Create Event' />
+                <input type="submit" className="btn-primary" value='Create Event' />
             </form>
         </div>
     );
