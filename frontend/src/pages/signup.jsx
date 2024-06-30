@@ -16,6 +16,7 @@ const Signup = () => {
     const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [occupation, setOccupation] = useState('');
     const [pronoun, setPronoun] = useState('');
 
     const checkIfMobile = (value) => {
@@ -71,14 +72,35 @@ const Signup = () => {
         data.append('email',email);
         data.append('mobile',mobile);
         data.append('age',age);
+        data.append('occupation',occupation);
         data.append('address',address);
         data.append('password',password);
         data.append('pronoun',pronoun);
 
+        const chatData = {
+            'username': name,
+            'secret': password,
+        }
+
+        var config = {
+            method: 'post',
+            url: 'https://api.chatengine.io/users/',
+            headers: {
+                'PRIVATE-KEY': '8cfeac71-62d3-4151-a95d-ebcc60b316cf'
+            },
+            data : chatData
+        };
+
         axios.post('http://localhost:3000/signup', data)
           .then((res) => {
             if (res.data == `User ${name} created successfully`) {
-                navigate('/login');
+                axios(config)
+                     .then((response) => {
+                        navigate('/login');
+                     })
+                     .catch((err) => {
+                        console.log(err);
+                     })
             }
           })
           .catch((err) => {
@@ -98,6 +120,7 @@ const Signup = () => {
                 <textarea placeholder="Address" onChange={(e) => (setAddress(e.target.value))} required />
                 <input type="password" placeholder="Password" onChange={(e) => (setPassword(e.target.value))} required />
                 <input type="password" placeholder="Confirm Password" onChange={(e) => (setConfirmPassword(e.target.value))} required />
+                <input type="text" placeholder="Occupation" onChange={(e) => (setOccupation(e.target.value))} required />
                 <input type="text" placeholder="Pronouns" onChange={(e) => (setPronoun(e.target.value))} required />
                 <input type='submit' value="Sign Up" onClick={handleSignup} />
             </form>

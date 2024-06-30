@@ -22,8 +22,20 @@ const Login = () => {
 
         axios.post('http://localhost:3000/login', data)
              .then((response) => {
-                if (response.data == 'Login successful') {
-                    navigate('/dashboard');
+                if (response.data.message == 'Login successful') {
+                    const id = response.data.id;
+                    const authObject = { 'Project-ID': '00d688c1-a94c-40a3-b9bc-9bb03b6beb8f', 'User-Name': response.data.name, 'User-Secret': password};
+
+                    try {
+                        axios.get('https://api.chatengine.io/chats', { headers: authObject });
+                  
+                        localStorage.setItem('username', response.data.name);
+                        localStorage.setItem('password', password);
+                        navigate(`/dashboard/user/${id}`);
+                      } catch (err) {
+                        setError('Oops, incorrect credentials.');
+                      }
+                    
                 }
              })
              .catch((err) => {

@@ -5,10 +5,11 @@ import cors from 'cors';
 import bcrypt from 'bcrypt';
 import twilio from 'twilio';
 import multer from 'multer';
+import path from 'path';
 
 //Twilio configuration
 const accountSid = 'AC56b8e536e377b281753d01a7ed4f42af';
-const authToken = 'ce36772c4d659d3945bcdf35b10ac293';
+const authToken = '2dbad0edb45e15aa76909de0e2c0d840';
 
 const client = twilio(accountSid, authToken);
 
@@ -34,6 +35,8 @@ const db = mysql.createConnection({
     password: '',
     database: 'communite'
 })
+
+
 
 //Multer middleware
 const storage = multer.diskStorage({
@@ -80,14 +83,15 @@ app.post('/signup', upload.single('profile'), (req, res) => {
     const address = req.body.address;
     const password = req.body.password;
     const pronoun = req.body.pronoun;
+    const occupation = req.body.occupation;
 
 
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if (err) {
             console.log(err);
         } else {
-            db.query('INSERT INTO users (name, email, mobile, Age, Address, Password, pronouns, profile) VALUES (?,?,?,?,?,?,?,?)',
-                [name, email, mobile, age, address, hash, pronoun, req.file.path], (err, result) => {
+            db.query('INSERT INTO users (name, email, mobile, Age, Address, Password, pronouns, profile, occupation) VALUES (?,?,?,?,?,?,?,?,?)',
+                [name, email, mobile, age, address, hash, pronoun, req.file.path, occupation], (err, result) => {
                 if (err) console.log(err);
                 res.status(200).send('User ' + name + ' created successfully');
             })
@@ -103,10 +107,12 @@ app.post('/login', (req, res) => {
     db.query('select * from users where mobile =?', [mobile], (err, result) => {
         if (err) console.log(err);
         if (result) {
+            const id = result[0].id;
+            const name = result[0].name;
             bcrypt.compare(password, result[0].Password, (err, result) => {
                 if (err) console.log(err);
                 if (result) {
-                    res.status(200).send('Login successful');
+                    res.status(200).json({message: 'Login successful', id: id, name: name});
                 } else {
                     res.status(500).send('Login failed');
                 }
@@ -154,4 +160,100 @@ app.post('/forgot-password', (req, res) => {
             res.status(404).send('User not found');
         }
     })
+})
+
+
+//Get user
+app.get('/user/:id', (req, res) => {
+    const id = req.params.id;
+
+    db.query(`SELECT * FROM users WHERE id = ${id}`, (err, result) => {
+        if (err) console.log(err);
+        if (result) {
+            res.status(200).send(result[0]);
+        }
+    })
+    
+})
+
+
+app.get('/user/profile/:id', (req, res) => {
+    const id = req.params.id;
+
+    db.query(`SELECT profile FROM users WHERE id = ${id}`, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error retrieving product image');
+        }
+        const imagePath = result[0].profile;
+        res.sendFile(path.resolve(imagePath)); 
+    })
+})
+
+
+app.delete('/user/delete/:id', (req, res) => {
+    const id = req.params.id;
+
+    db.query(`DELETE FROM users WHERE id = ${id}`, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error deleting user');
+        }
+        res.status(200).send('User deleted successfully');
+    })
+});
+
+app.put('/user/edit/:id',upload.single('profile'), (req,res) => {
+    const id = req.params.id;
+    const name = req.body.name;
+    const email = req.body.email;
+    const mobile = req.body.mobile;
+    const age = req.body.age;
+    const password = req.body.password;
+    const address = req.body.address;
+    const pronoun = req.body.pronoun;
+    const occupation = req.body.occupation;
+
+    if (req.file) {
+        const profile = req.file.path;
+        if (password != '') {
+            bcrypt.hash(password, saltRounds, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    db.query('update users set name =?, email =?, mobile =?, Age =?, Address =?, Password =?, pronouns =?, profile =?, occupation =? where id =?',
+                        [name, email, mobile, age, address, hash, pronoun, profile, occupation, id], (err, result) => {
+                        if (err) console.log(err);
+                        res.status(200).send('User '+ name +' updated successfully');
+                    })
+                }
+            })
+        } else {
+            db.query('update users set name =?, email =?, mobile =?, Age =?, Address =?, pronouns =?, profile =?, occupation =? where id =?',
+                [name, email, mobile, age, address, pronoun, profile, occupation, id], (err, result) => {
+                if (err) console.log(err);
+                res.status(200).send('User '+ name +' updated successfully');
+            })
+        }
+    } else {
+        if (password!= '') {
+            bcrypt.hash(password, saltRounds, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    db.query('update users set name =?, email =?, mobile =?, Age =?, Address =?, Password =?, pronouns =?, occupation =? where id =?',
+                        [name, email, mobile, age, address, hash, pronoun, occupation, id], (err, result) => {
+                        if (err) console.log(err);
+                        res.status(200).send('User '+ name +' updated successfully');
+                    })
+                }
+            })
+        } else {
+            db.query('update users set name =?, email =?, mobile =?, Age =?, Address =?, pronouns =?, occupation =? where id =?',
+                [name, email, mobile, age, address, pronoun, occupation, id], (err, result) => {
+                if (err) console.log(err);
+                res.status(200).send('User '+ name +' updated successfully');
+            })
+        }
+    }
 })
