@@ -10,6 +10,7 @@ import NewEvent from './pages/newEvent.jsx';
 import {Route, Routes} from 'react-router-dom';
 import Chat from './pages/chat.jsx';
 import './App.css'
+import SideNav from './components/SideNav/SideNav';
 
 function App() {
 
@@ -27,5 +28,6 @@ function App() {
     </Routes>
   )
 }
+
 
 export default App; 
